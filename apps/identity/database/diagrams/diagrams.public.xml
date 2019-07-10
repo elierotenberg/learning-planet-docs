@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="diagrams" schema="public" type="PostgreSQL - 11.3 (Debian 11.3-1.pgdg90+1)">
+   <tables>
+      <table name="app_key_auth_secrets" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="app_id" nullable="false" remarks="" size="2147483647" type="text"/>
+         <column autoUpdated="false" digits="0" id="1" name="app_key" nullable="false" remarks="" size="2147483647" type="text"/>
+         <primaryKey column="app_id" sequenceNumberInPK="1"/>
+         <index name="app_key_auth_secrets_pkey" unique="true">
+            <column ascending="true" name="app_id"/>
+         </index>
+         <index name="app_key_auth_secrets_app_key_key" unique="true">
+            <column ascending="true" name="app_key"/>
+         </index>
+      </table>
+      <table name="root_key_auth_secrets" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="root_key" nullable="false" remarks="" size="2147483647" type="text"/>
+      </table>
+      <table name="user" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="text">
+            <child column="user_id" foreignKey="user_basic_auth_secrets_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_basic_auth_secrets"/>
+            <child column="denorm_user_id" foreignKey="user_bearer_token_denorm_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="user_bearer_token"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="primary_email" nullable="false" remarks="" size="2147483647" type="text">
+            <child column="primary_email" foreignKey="user_basic_auth_secrets_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user_basic_auth_secrets"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="2" name="first_name" nullable="false" remarks="" size="2147483647" type="text"/>
+         <column autoUpdated="false" digits="0" id="3" name="last_name" nullable="false" remarks="" size="2147483647" type="text"/>
+         <column autoUpdated="false" digits="0" id="4" name="full_name" nullable="false" remarks="" size="2147483647" type="text"/>
+         <column autoUpdated="false" digits="6" id="5" name="birth_date" nullable="false" remarks="" size="35" type="timestamptz"/>
+         <column autoUpdated="false" digits="0" id="6" name="avatar_url" nullable="false" remarks="" size="2147483647" type="text"/>
+         <primaryKey column="user_id" sequenceNumberInPK="1"/>
+         <index name="user_pkey" unique="true">
+            <column ascending="true" name="user_id"/>
+         </index>
+         <index name="user_primary_email_key" unique="true">
+            <column ascending="true" name="primary_email"/>
+         </index>
+         <index name="user_user_id_primary_email_key" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="primary_email"/>
+         </index>
+      </table>
+      <table name="user_basic_auth_secrets" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="user_id" nullable="false" remarks="" size="2147483647" type="text">
+            <parent column="user_id" foreignKey="user_basic_auth_secrets_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="primary_email" nullable="false" remarks="" size="2147483647" type="text">
+            <parent column="primary_email" foreignKey="user_basic_auth_secrets_user_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="user"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="2" name="hashed_password" nullable="false" remarks="" size="2147483647" type="text"/>
+         <primaryKey column="user_id" sequenceNumberInPK="1"/>
+         <primaryKey column="primary_email" sequenceNumberInPK="2"/>
+         <index name="user_basic_auth_secrets_pkey" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="primary_email"/>
+         </index>
+      </table>
+      <table name="user_bearer_token" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="token" nullable="false" remarks="" size="2147483647" type="text"/>
+         <column autoUpdated="false" digits="0" id="1" name="denorm_user_id" nullable="false" remarks="" size="2147483647" type="text">
+            <parent column="user_id" foreignKey="user_bearer_token_denorm_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="user"/>
+         </column>
+         <column autoUpdated="false" digits="6" id="2" name="denorm_expires_at" nullable="false" remarks="" size="35" type="timestamptz"/>
+         <primaryKey column="token" sequenceNumberInPK="1"/>
+         <index name="user_bearer_token_pkey" unique="true">
+            <column ascending="true" name="token"/>
+         </index>
+      </table>
+   </tables>
+</database>

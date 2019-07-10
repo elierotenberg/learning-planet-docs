@@ -1,0 +1,5 @@
+root_key_auth_secrets
+app_key_auth_secrets
+user_basic_auth_secrets
+user_bearer_token
+user
